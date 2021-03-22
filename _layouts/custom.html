@@ -6,16 +6,21 @@
   </head>
   <body>
     <div>
-      {% for tome in site.tomes %} {% assign fixedUrl= tome.url | relative_url |
-      prepend: site.data.env.siteRoot %} {% assign renderedContent= tome.content
-      | markdownify %}
       <ul>
         <li>
-          <a href="{{ fixedUrl }}"> {{ tome.name }} - {{ tome.color }} </a>
+          <a href="{{ site.url | append: site.baseurl | append: "/" }}"> Home </a>
+        </li>
+        {% for tome in site.tomes %} {% assign fixedUrl= tome.url | relative_url
+        | prepend: site.url %} {% assign renderedContent= tome.content |
+        markdownify %}
+
+        <li>
+          <a href="{{ fixedUrl }}"> {{ tome.name }} </a>
           {% include toc.html html=renderedContent base_url=fixedUrl %}
         </li>
+
+        {% endfor %}
       </ul>
-      {% endfor %}
     </div>
 
     {{ content }}
