@@ -3,22 +3,38 @@
   <head>
     <meta charset="utf-8" />
     <title>{{ page.title }}</title>
+    <style>
+      html body {
+      background-color: black;
+      color: white;
+    }
+    </style>
   </head>
   <body>
     <div>
       <ul>
+        {% for book in site.books %} 
+        {% assign filename = book.path %}
+        {% assign check = filename | split:'index.md' %}
+        {% if check.size == 1 and checkArray[0] != filename %}
+          INDEX.MD FOUND
+        {% else %}
+          INDEX.MD NOT FOUND
+        {% endif %}
         <li>
-          <a href="{{ site.url | append: site.baseurl | append: "/" }}"> Home </a>
+          {{ book.title }} | {{ book.url }} | {{ book.path }}
+        
+          {% if book.toc != nil %}
+          <ul>
+            {% for subNav in book.toc %}
+            
+            <li>
+              {{ subNav }}
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
         </li>
-        {% for tome in site.tomes %} {% assign fixedUrl= tome.url | relative_url
-        | prepend: site.url %} {% assign renderedContent= tome.content |
-        markdownify %}
-
-        <li>
-          <a href="{{ fixedUrl }}"> {{ tome.name }} </a>
-          {% include toc.html html=renderedContent base_url=fixedUrl %}
-        </li>
-
         {% endfor %}
       </ul>
     </div>
